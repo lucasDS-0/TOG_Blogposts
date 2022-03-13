@@ -11,21 +11,9 @@ def parse_page(page):
     return parsed
 
 
-def get_endnote(parsed_page):
-    header = parsed_page.find(id="Naver_Endnote")
-    return header.find_next("center")
-
-
 def get_blogpost(parsed_page):
     header = parsed_page.find(id="Blog_Post")
     return header.find_next("p")
-
-
-def print_endnote(endnote):
-    print("Naver's Endnote:")
-    print()
-    print(endnote.text.strip())
-    print()
 
 
 def print_blogpost(blogpost):

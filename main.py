@@ -2,11 +2,6 @@ import click
 import scraper as sc
 
 
-def show_endnote(parsed_page):
-    endnote = sc.get_endnote(parsed_page)
-    sc.print_endnote(endnote)
-
-
 def show_blogpost(parsed_page):
     blogpost = sc.get_blogpost(parsed_page)
     sc.print_blogpost(blogpost)
@@ -26,7 +21,6 @@ def show_chapter(volume, chapter):
             url = 'https://towerofgod.fandom.com/wiki/Vol.' + str(volume) + '_Ch.' + ('0' + str(chapter) if chapter < 10 else str(chapter))
         page = sc.get_page(url)
         parsed_page = sc.parse_page(page)
-        show_endnote(parsed_page)
         show_blogpost(parsed_page)
 
 
