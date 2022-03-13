@@ -1,8 +1,35 @@
 import requests
 from bs4 import BeautifulSoup
 
-URL = ""
 
-def get_URL(url_path):
+def get_page(url_path):
     return requests.get(url_path)
 
+
+def parse_page(page):
+    parsed = BeautifulSoup(page.content, "html.parser")
+    return parsed
+
+
+def get_endnote(parsed_page):
+    header = parsed_page.find(id="Naver_Endnote")
+    return header.find_next("center")
+
+
+def get_blogpost(parsed_page):
+    header = parsed_page.find(id="Blog_Post")
+    return header.find_next("p")
+
+
+def print_endnote(endnote):
+    print("Naver's Endnote:")
+    print()
+    print(endnote.text.strip())
+    print()
+
+
+def print_blogpost(blogpost):
+    print("SIU's Blogpost:")
+    print()
+    print(blogpost.text.strip())
+    print()
