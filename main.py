@@ -8,10 +8,20 @@ def show_blogpost(parsed_page):
 
 
 @click.command()
-@click.option('--volume', type=int, required=True, help="Sets the chapter's volume")
-@click.option('--chapter', type=int, required=True, help="Sets the chapter to show")
+@click.option('--volume', type=int, required=False, default=-1, help="Sets the chapter's volume")
+@click.option('--chapter', type=int, required=False, default=-1, help="Sets the chapter to show")
 def show_chapter(volume, chapter):
-    if (chapter < 0) or (volume == 1 and chapter > 79) or \
+    if volume == -1:
+        print("Set the chapter's volume")
+        volume = input()
+        volume = int(volume)
+        print()
+    if chapter == -1:
+        print("Set the chapter to show")
+        chapter = input()
+        chapter = int(chapter)
+        print()
+    if (chapter < 0) or (volume > 3) or (volume == 1 and chapter > 79) or \
             (volume == 2 and chapter > 337) or (volume == 3 and (chapter < 1 or chapter > 101)):
         print("Chapter doesn't exist :(")
     else:
