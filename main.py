@@ -1,6 +1,7 @@
 import click
 import scraper as sc
 
+uri_path = 'https://towerofgod.fandom.com/wiki/'
 
 def show_blogpost(parsed_page):
     blogpost = sc.get_blogpost(parsed_page)
@@ -8,31 +9,25 @@ def show_blogpost(parsed_page):
 
 
 @click.command()
-@click.option('--volume', type=int, required=False, default=-1, help="Sets the chapter's volume")
-@click.option('--chapter', type=int, required=False, default=-1, help="Sets the chapter to show")
-def show_chapter(volume, chapter):
-    if volume == -1:
-        print("Set the chapter's volume")
-        volume = input()
-        volume = int(volume)
-        print()
-    if chapter == -1:
-        print("Set the chapter to show")
-        chapter = input()
-        chapter = int(chapter)
-        print()
-    if (chapter < 0) or (volume > 3) or (volume == 1 and chapter > 79) or \
-            (volume == 2 and chapter > 337) or (volume == 3 and (chapter < 1 or chapter > 101)):
-        print("Chapter doesn't exist :(")
+@click.option('--volume', type=int, required=True, help="Sets the chapter's volume")
+@click.option('--chapter', type=int, required=True, help="Sets the chapter to show")
+def show_chapter_content(volume, chapter):
+    """Simple program to read SIU's Naver endnotes and blogposts."""
+    if volume not in [1,2,3]:
+        print(f'Volume {volume} doesn\'t exists :(.')
+    elif chapter < 0:
+        print(f'Chapter {chapter} doesn\'t exists :(.')
+    elif (volume == 1 and chapter > 79) or (volume == 2 and chapter > 337):
+        print(f'Volume {volume} doesn\'t have chapter {chapter} :(.')
     else:
         if volume == 1:
-            url = 'https://towerofgod.fandom.com/wiki/Ch.' + ('0' + str(chapter) if chapter < 10 else str(chapter))
+            url = uri_path + 'Ch.' + ('0' + str(chapter) if chapter < 10 else str(chapter))
         else:
-            url = 'https://towerofgod.fandom.com/wiki/Vol.' + str(volume) + '_Ch.' + ('0' + str(chapter) if chapter < 10 else str(chapter))
+            url = uri_path + 'Vol.' + str(volume) + '_Ch.' + ('0' + str(chapter) if chapter < 10 else str(chapter))
         page = sc.get_page(url)
         parsed_page = sc.parse_page(page)
         show_blogpost(parsed_page)
 
 
 if __name__ == '__main__':
-    show_chapter()
+    show_chapter_content()

@@ -13,8 +13,8 @@ def parse_page(page):
 
 def get_blogpost(parsed_page):
     header = parsed_page.find(id="Blog_Post")
-    return header.find_next("p")
-
+    header = header.parent.next_sibling
+    return header.find_next()
 
 def print_blogpost(blogpost):
     print("SIU's Blogpost:")
