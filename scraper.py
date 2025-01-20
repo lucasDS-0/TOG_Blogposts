@@ -1,9 +1,4 @@
-import requests
 from bs4 import BeautifulSoup
-
-
-def get_page(url_path):
-    return requests.get(url_path)
 
 
 def parse_page(page):

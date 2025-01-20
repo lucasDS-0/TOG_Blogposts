@@ -1,7 +1,11 @@
 import click
 import scraper as sc
+import requests
 
 uri_path = 'https://towerofgod.fandom.com/wiki/'
+
+def get_page(url_path):
+    return requests.get(url_path)
 
 def show_blogpost(parsed_page):
     blogpost = sc.get_blogpost(parsed_page)
@@ -20,11 +24,12 @@ def show_chapter_content(volume, chapter):
     elif (volume == 1 and chapter > 79) or (volume == 2 and chapter > 337):
         print(f'Volume {volume} doesn\'t have chapter {chapter} :(.')
     else:
+        shift = '0' if chapter < 10 else ''
         if volume == 1:
-            url = uri_path + 'Ch.' + ('0' + str(chapter) if chapter < 10 else str(chapter))
+            url = f'{uri_path}Ch.{shift}{chapter}'
         else:
-            url = uri_path + 'Vol.' + str(volume) + '_Ch.' + ('0' + str(chapter) if chapter < 10 else str(chapter))
-        page = sc.get_page(url)
+            url = f'{uri_path}Vol.{volume}_Ch.{shift}{chapter}'
+        page = get_page(url)
         parsed_page = sc.parse_page(page)
         show_blogpost(parsed_page)
 
