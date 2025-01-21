@@ -7,10 +7,13 @@ uri_path = 'https://towerofgod.fandom.com/wiki/'
 def get_page(url_path):
     return requests.get(url_path)
 
+def show_endnote(parsed_page):
+    endnote = sc.get_naver_endnote(parsed_page)
+    sc.print_endnote(endnote)
+
 def show_blogpost(parsed_page):
     blogpost = sc.get_blogpost(parsed_page)
     sc.print_blogpost(blogpost)
-
 
 @click.command()
 @click.option('--volume', type=int, required=True, help="Sets the chapter's volume")
@@ -31,6 +34,7 @@ def show_chapter_content(volume, chapter):
             url = f'{uri_path}Vol.{volume}_Ch.{shift}{chapter}'
         page = get_page(url)
         parsed_page = sc.parse_page(page)
+        show_endnote(parsed_page)
         show_blogpost(parsed_page)
 
 
